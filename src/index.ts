@@ -1,8 +1,9 @@
-import { MESSAGES } from 'consts';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import express from 'express';
-import { Logger } from 'utils';
+import { MESSAGES } from "consts";
+import cors from "cors";
+import dotenv from "dotenv";
+import express from "express";
+import { Logger } from "utils";
+import { ApolloServer } from "@apollo/server";
 
 dotenv.config();
 
@@ -11,7 +12,7 @@ const app = express();
 app
   .use(cors())
   .use(express.json())
-  .use('/health', (_req, res) => res.send('OK'));
+  .use("/health", (_req, res) => res.send("OK"));
 
 const PORT = process.env.SERVER_PORT || 4000;
 
