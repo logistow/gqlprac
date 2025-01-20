@@ -21,7 +21,6 @@ export default {
   rules: {
     ...js.configs.recommended.rules,
     ...ts.configs.recommended.rules,
-    "no-unused-vars": "error",
     "quotes": ["error", "double"],
     "indent": ["error", 2],
     "semi": ["error", "always"]

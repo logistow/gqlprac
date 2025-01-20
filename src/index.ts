@@ -1,23 +1,18 @@
-import { MESSAGES } from "consts";
-import cors from "cors";
 import dotenv from "dotenv";
-import express from "express";
+import { backendSetup, dbSetup } from "setup";
 import { Logger } from "utils";
-import { ApolloServer } from "@apollo/server";
 
 dotenv.config();
 
-const app = express();
+const setupServer = async () => {
+  try {
+    await dbSetup();
+    await backendSetup();
+  } catch (err) {
+    Logger.error("Failed to start Server:", err);
+    return;
+  }
+};
 
-app
-  .use(cors())
-  .use(express.json())
-  .use("/health", (_req, res) => res.send("OK"));
+setupServer();
 
-const PORT = process.env.SERVER_PORT || 4000;
-
-app.listen(PORT, () => {
-  Logger.log(MESSAGES.MSG_SERVER_STARTED);
-});
-
-export default app;
