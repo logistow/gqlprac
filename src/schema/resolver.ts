@@ -3,7 +3,7 @@ import { AppDataSource } from "database";
 
 const userRepository = AppDataSource.getRepository(UserEntity);
 
-const resolvers = {
+export const resolvers = {
   Query: {
     getUser: async (_, { id }: { id: number }) => {
       return await userRepository.findOneBy({ id: id });
@@ -45,5 +45,3 @@ const resolvers = {
     },
   },
 };
-
-export default resolvers;
