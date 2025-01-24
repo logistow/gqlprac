@@ -1,19 +1,20 @@
-import express from "express";
-import cors from "cors";
-import { MESSAGES } from "consts";
-import { Logger } from "utils";
+import { ApolloServer } from "apollo-server";
+import { readFileSync } from "fs";
+import path from "path";
+import { resolvers } from "../schema/resolver";
 
 export const backendSetup = async () => {
-  const app = express();
+  const typeDefs = readFileSync(path.join(__dirname, "../schema/typeDefs.graphql"), {
+    encoding: "utf-8",
+  });
 
-  app
-    .use(cors())
-    .use(express.json())
-    .use("/health", (_req, res) => res.send("OK"));
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+  });
 
-  const PORT = process.env.SERVER_PORT || 4000;
-
-  app.listen(PORT, () => {
-    Logger.log(MESSAGES.MSG_SERVER_STARTED);
+  // Start the server
+  server.listen().then(({ url }) => {
+    console.log(`🚀 Server ready at ${url}`);
   });
 };
