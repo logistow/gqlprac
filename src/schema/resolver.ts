@@ -18,7 +18,8 @@ export const resolvers = {
       _,
       { name, email, age }: { name: string; email: string; age: number }
     ) => {
-      const user = userRepository.create({ name, email, age });
+      const created = new Date();
+      const user = userRepository.create({ name, email, age, created });
       return await userRepository.save(user);
     },
 
@@ -32,14 +33,14 @@ export const resolvers = {
       }: { id: number; name?: string; email?: string; age?: number }
     ) => {
       await userRepository.update(id, { name, email, age });
-      return await userRepository.findOneBy({id: id});
+      return await userRepository.findOneBy({ id: id });
     },
 
     deleteUser: async (_, { id }: { id: number }) => {
-      const user = await userRepository.findOneBy({id: id});
+      const user = await userRepository.findOneBy({ id: id });
       if (user) {
         await userRepository.remove(user);
-        return user;
+        return { id };
       }
       throw new Error("User not found");
     },
